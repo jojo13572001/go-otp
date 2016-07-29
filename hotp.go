@@ -47,9 +47,9 @@ func (h *HOTP) Get() string {
 	var hash []byte
 	if h.IsBase32Secret {
 		secretBytes, _ := base32.StdEncoding.DecodeString(h.Secret)
-		hash = hmacSHA1(secretBytes, text)
+		hash = hmacSHA512(secretBytes, text)
 	} else {
-		hash = hmacSHA1([]byte(h.Secret), text)
+		hash = hmacSHA512([]byte(h.Secret), text)
 	}
 	binary := truncate(hash)
 	otp := int64(binary) % int64(math.Pow10(int(h.Length)))
