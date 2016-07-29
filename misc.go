@@ -4,6 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/rand"
 	"crypto/sha1"
+	"crypto/sha512"
 	"encoding/base32"
 )
 
@@ -31,6 +32,12 @@ func counterToBytes(counter uint64) (text []byte) {
 
 func hmacSHA1(key, text []byte) []byte {
 	H := hmac.New(sha1.New, key)
+	H.Write([]byte(text))
+	return H.Sum(nil)
+}
+
+func hmacSHA512(key, text []byte) []byte {
+	H := hmac.New(sha512.New, key)
 	H.Write([]byte(text))
 	return H.Sum(nil)
 }
